@@ -1,10 +1,22 @@
 import React from "react";
 import "./button.css";
 
-const Button = (props) => {
+const Button = props => {
+  const handleSubmit = e => {
+    e.preventDefault();
+    const age = props.user.userAge;
+    const name = props.user.userName;
+    if (name.trim().length === 0 || age.trim().length === 0) return;
+
+    if (+age < 1) return;
+    props.addUser(props.user);
+    props.resetForm();
+  };
   return (
     <div>
-      <button type="submit" onClick={() => props.addUser(props.user)}>Add User</button>
+      <button type="submit" onClick={handleSubmit}>
+        {props.children}
+      </button>
     </div>
   );
 };

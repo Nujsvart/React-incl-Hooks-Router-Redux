@@ -20,20 +20,37 @@ const UserInput = props => {
     }));
   };
 
-  return (
-    <Card>
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        name="username"
-        id="username"
-        onChange={handleUserName}
-      />
-      <label htmlFor="age">Age (Years)</label>
-      <input type="number" name="age" id="age" onChange={handleUserAge} />
+  const resetForm = () => {
+    setUserInfo({ userName: "", userAge: "" });
+  };
 
-      <Button addUser={props.addUser} user={userInfo} />
-    </Card>
+  return (
+    <div className="container">
+      <Card>
+        <form>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            value={userInfo.userName}
+            onChange={handleUserName}
+          />
+          <label htmlFor="age">Age (Years)</label>
+          <input
+            type="number"
+            name="age"
+            id="age"
+            value={userInfo.userAge}
+            onChange={handleUserAge}
+          />
+
+          <Button addUser={props.addUser} user={userInfo} resetForm={resetForm}>
+            Add User
+          </Button>
+        </form>
+      </Card>
+    </div>
   );
 };
 
