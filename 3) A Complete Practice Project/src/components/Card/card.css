@@ -1,0 +1,10 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 50%;
+  margin-top: 5rem;
+  background-color: whitesmoke;
+  padding: 1rem;
+  border-radius: 10px;
+}
