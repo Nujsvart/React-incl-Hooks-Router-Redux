@@ -21,11 +21,11 @@ const Button = props => {
   };
 
   return (
-    <div>
+    <>
       <button type="submit" onClick={handleSubmit}>
         {props.children}
       </button>
-    </div>
+    </>
   );
 };
 
