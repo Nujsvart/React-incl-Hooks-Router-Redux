@@ -1,10 +1,11 @@
 import React from "react";
 import Card from "../Card/Card";
 import classes from "./errormodal.module.css";
+import Wrapper from "../Wrapper/Wrapper";
 
 const ErrorModal = props => {
   return (
-    <div>
+    <Wrapper>
       <div className={classes.backdrop} onClick={props.handleError} />
       <Card className={classes.modal}>
         <header className={classes.header}>
@@ -17,7 +18,7 @@ const ErrorModal = props => {
           <button onClick={props.handleError}>Okay</button>
         </footer>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 
