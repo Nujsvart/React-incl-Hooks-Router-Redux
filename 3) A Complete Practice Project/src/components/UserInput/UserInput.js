@@ -45,7 +45,7 @@ const UserInput = props => {
             onChange={handleUserAge}
           />
 
-          <Button addUser={props.addUser} user={userInfo} resetForm={resetForm}>
+          <Button addUser={props.addUser} showError={props.showError} user={userInfo} resetForm={resetForm}>
             Add User
           </Button>
         </form>

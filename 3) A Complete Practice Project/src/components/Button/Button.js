@@ -6,12 +6,20 @@ const Button = props => {
     e.preventDefault();
     const age = props.user.userAge;
     const name = props.user.userName;
-    if (name.trim().length === 0 || age.trim().length === 0) return;
+    if (name.trim().length === 0 || age.trim().length === 0) {
+      props.showError("invalid input", "please enter a valid name");
+      return;
+    }
 
-    if (+age < 1) return;
+    if (+age < 1) {
+      props.showError("invalid age", "please enter a valid age");
+      return;
+    }
+
     props.addUser(props.user);
     props.resetForm();
   };
+
   return (
     <div>
       <button type="submit" onClick={handleSubmit}>
