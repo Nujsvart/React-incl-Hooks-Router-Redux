@@ -12,10 +12,7 @@ const MealItemForm = props => {
 
     const enteredAmount = amountInputRef.current.value;
 
-    if (
-      +enteredAmount < 1 ||
-      +enteredAmount > 5
-    ) {
+    if (+enteredAmount < 1 || +enteredAmount > 5) {
       setAmountIsValid(false);
       return;
     }

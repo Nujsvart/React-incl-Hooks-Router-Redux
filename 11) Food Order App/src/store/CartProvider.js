@@ -6,31 +6,37 @@ const defaultCartState = {
   totalAmount: 0,
 };
 
-const cartReducer = (state = defaultCartState, action) => {
-  switch (action.type) {
-    case "ADD":
-      let updatedItems;
+const cartReducer = (state, action) => {
+  if (action.type === "ADD") {
+    let updatedItems;
+    const index = state.items.findIndex(el => el.id === action.payload.id);
+    if (index === -1) {
+      updatedItems = [...state.items, action.payload];
+    } else {
+      updatedItems = [...state.items];
+      updatedItems[index].amount += action.payload.amount;
+    }
 
-      if (state.items.find(item => item.id === action.payload.id)) {
-        updatedItems = state.items.map(item =>
-          item.id === action.payload.id
-            ? { ...item, amount: item.amount + action.payload.amount }
-            : item
-        );
-      } else {
-        updatedItems = [...state.items, action.payload];
-      }
+    return {
+      items: updatedItems,
+      totalAmount:
+        state.totalAmount + action.payload.price * action.payload.amount,
+    };
+  }
+  if (action.type === "REMOVE") {
+    let updatedItems;
+    const index = state.items.findIndex(el => el.id === action.payload);
+    if (state.items[index].amount === 1) {
+      updatedItems = state.items.filter(el => el.id !== action.payload);
+    } else {
+      updatedItems = [...state.items];
+      updatedItems[index].amount -= 1;
+    }
 
-      return {
-        items: updatedItems,
-        totalAmount:
-          state.totalAmount + action.payload.price * action.payload.amount,
-      };
-
-    case "REMOVE":
-      return state;
-    default:
-      return state;
+    return {
+      items: updatedItems,
+      totalAmount: state.totalAmount - state.items[index].price,
+    };
   }
 };
 
