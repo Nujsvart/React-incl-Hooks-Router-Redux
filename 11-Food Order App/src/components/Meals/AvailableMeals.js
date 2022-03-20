@@ -7,6 +7,7 @@ import classes from "./availablemeals.module.css";
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState();
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -14,6 +15,11 @@ const AvailableMeals = () => {
       const res = await fetch(
         "https://react-deneme-6773c-default-rtdb.europe-west1.firebasedatabase.app/meals.json"
       );
+
+      if (!res.ok) {
+        throw new Error("Something went wrong");
+      }
+
       const data = await res.json();
       console.log(data);
 
@@ -30,13 +36,25 @@ const AvailableMeals = () => {
       setMeals(loadedMeals);
       setIsLoading(false);
     };
-    fetchMeals();
+
+    fetchMeals().catch(error => {
+      setIsLoading(false);
+      setFetchError(error.message);
+    });
   }, []);
 
   if (isLoading) {
     return (
       <section className={classes.MealsLoading}>
         <p>Loading...</p>
+      </section>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <section className={classes.MealsError}>
+        <p>{fetchError}</p>
       </section>
     );
   }
