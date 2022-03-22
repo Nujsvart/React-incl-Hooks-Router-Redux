@@ -8,6 +8,9 @@ import classes from "./cart.module.css";
 
 const Cart = props => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
+
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -25,8 +28,9 @@ const Cart = props => {
     setIsCheckout(true);
   };
 
-  const submitOrderHandler = userData => {
-    fetch(
+  const submitOrderHandler = async userData => {
+    setIsSubmitting(true);
+    await fetch(
       "https://react-deneme-6773c-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
       {
         method: "POST",
@@ -36,6 +40,9 @@ const Cart = props => {
         }),
       }
     );
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
   };
 
   const cartItems = (
@@ -69,8 +76,8 @@ const Cart = props => {
     </div>
   );
 
-  return (
-    <Modal setCartIsShown={props.setCartIsShown}>
+  const cartModalContent = (
+    <>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
@@ -84,6 +91,18 @@ const Cart = props => {
         />
       )}
       {!isCheckout && modalActions}
+    </>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data...</p>;
+
+  const didSubmitModalContent = <p>Succesfully sent the order!</p>;
+
+  return (
+    <Modal setCartIsShown={props.setCartIsShown}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };
