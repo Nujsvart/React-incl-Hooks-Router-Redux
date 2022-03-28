@@ -1,7 +1,14 @@
+import Welcome from "./pages/Welcome";
+import Products from "./pages/Products";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+
 function App() {
   return (
     <div>
-      <h2>Let's get started!</h2>
+      <Router>
+        <Route path="/welcome" component={Welcome} />
+        <Route path={ "/products"} component={Products} />
+      </Router>
     </div>
   );
 }
